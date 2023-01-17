@@ -1,0 +1,182 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+
+<script type="text/javascript" src="{{ url_for('static', filename = 'quiz_TF.js') }}"></script>
+<script>
+  let idx= {{index|tojson}}
+  let data = {{data|tojson}}
+  let HasSaved={{save|tojson}}
+</script>
+
+<nav class="navbar navbar-expand-lg navbar-light nav_bg">
+  <div class="container">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <ul class="navbar-nav col">
+        <li class="nav-item active col-2">
+          <a class="nav-link text-light nav_text" href="/">HOME</a>
+        </li>
+        <li class="nav-item active col-2">
+          <a class="nav-link text-light nav_text" href="/body">BODY</a>
+        </li>
+        <li class="nav-item active col-2">
+          <a class="nav-link text-light nav_text" href="/tails">TAILS</a>
+        </li>
+        <li class="nav-item active col-3">
+          <a class="nav-link text-light nav_text" href="/earsandeyes">EARS & EYES</a>
+        </li>
+        <li class="nav-item dropdown col-3 choose-color">
+
+
+          <a class="nav-link dropdown-toggle text-light nav_text" href="/quiz" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+            QUIZ
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/quiz/1">
+              Q1 - Body 1
+              <div class="progress" id="quiz_1_progress">
+                {% if progress.quiz_1_progress.save %}
+                 {% if progress.quiz_1_progress.user_score==1 %}
+                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3mYBIRnyLDSh0OYf4pS2fd0xid0HVP81NysKqcOYPg0FOth7K7VUNpxmtJ_cyV8NQAaA&usqp=CAU" width="100%">
+                 {% else %}
+                 <img src="https://us.123rf.com/450wm/vectora/vectora1704/vectora170401047/75817847-red-cross-symbol-icon-as-delete-remove-fail-failure-or-incorrect-answer-icon.jpg" width="100%">
+                 {% endif %}
+                {% endif %}
+              </div>
+            </a>
+            <div class="dropdown-divider"></div>
+
+            <a class="dropdown-item" href="/quiz/2">
+              Q2 - Body 2
+              <div class="progress" id="quiz_2_progress">
+                {% if progress.quiz_2_progress.save %}
+                 {% if progress.quiz_2_progress.user_score==1 %}
+                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3mYBIRnyLDSh0OYf4pS2fd0xid0HVP81NysKqcOYPg0FOth7K7VUNpxmtJ_cyV8NQAaA&usqp=CAU" width="100%">
+                 {% else %}
+                 <img src="https://us.123rf.com/450wm/vectora/vectora1704/vectora170401047/75817847-red-cross-symbol-icon-as-delete-remove-fail-failure-or-incorrect-answer-icon.jpg" width="100%">
+                 {% endif %}
+                {% endif %}
+              </div>
+            </a>
+            <div class="dropdown-divider"></div>
+
+            <a class="dropdown-item" href="/quiz/3">
+              Q3 - Tails
+              <div class="progress" id="quiz_3_progress">
+                {% if progress.quiz_3_progress.save %}
+                 {% if progress.quiz_3_progress.user_score==1 %}
+                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3mYBIRnyLDSh0OYf4pS2fd0xid0HVP81NysKqcOYPg0FOth7K7VUNpxmtJ_cyV8NQAaA&usqp=CAU" width="100%">
+                 {% else %}
+                 <img src="https://us.123rf.com/450wm/vectora/vectora1704/vectora170401047/75817847-red-cross-symbol-icon-as-delete-remove-fail-failure-or-incorrect-answer-icon.jpg" width="100%">
+                 {% endif %}
+                {% endif %}
+              </div>
+            </a>
+            <div class="dropdown-divider"></div>
+
+            <a class="dropdown-item" href="/quiz/4">
+              Q4 - Ears & Eyes
+              <div class="progress" id="quiz_4_progress">
+                {% if progress.quiz_4_progress.save %}
+                 {% if progress.quiz_4_progress.user_score==1 %}
+                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3mYBIRnyLDSh0OYf4pS2fd0xid0HVP81NysKqcOYPg0FOth7K7VUNpxmtJ_cyV8NQAaA&usqp=CAU" width="100%">
+                 {% else %}
+                 <img src="https://us.123rf.com/450wm/vectora/vectora1704/vectora170401047/75817847-red-cross-symbol-icon-as-delete-remove-fail-failure-or-incorrect-answer-icon.jpg" width="100%">
+                 {% endif %}
+                {% endif %}
+              </div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/result">Result</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<br>
+<br>
+<div class="row">
+    <div class="col">
+        <span id="quiz_title">Quiz</span>
+    </div>
+</div>
+<br>
+<br>
+<div class="row">
+    <div class="col" id="quiz_content">
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="col-10 quiz_question" data-idx="{{index}}" data-type="{{data.type}}">{{index}}. {{data.question}}</div>
+                <div class="col-1"></div>
+            </div>
+            <br>
+            {% if data.type == "TF" %}
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="col-10 quiz_question">
+                    <img src="{{data.material}}" alt="cat lie on back">
+                </div>
+                <div class="col-1"></div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-3 quiz_answer" id="answer" data-answer="{{data.answer}}">
+                    <input type="radio" name="TF" value="True" data-id="T"> True <div class="check_div_TF" data-id="T"></div><br>
+                    <input type="radio" name="TF" value="False" data-id="F"> False <div class="check_div_TF" data-id="F"></div><br>
+                </div>
+                <div class="col-7"></div>
+            </div>
+
+            {% else %}
+            <div class="row" id="material_div">
+              {% for image, answer in data.material.items() %}
+              <div class="col-1"></div>
+              <div class="col-2 quiz_question">
+                  <div class="quiz_image_div"><img src="{{image}}" class="quiz_image"></div>
+                  <br>
+                  <div class="drop_div" data-answer="{{answer}}"></div>
+                  <br>
+                  <div class="check_div" data-answer="{{answer}}"></div>
+              </div> 
+              <div class="col-1"></div>
+              {% endfor %}
+            </div>
+            <br>
+            
+            <br>
+            <div class="row" id="tag_div">
+              {% for tag in data.tags %}
+              <div class="col-1"></div>
+              <div class="col-2 tag_div" data-value="{{tag}}"><div class="draggable_tag" data-value="{{tag}}">{{tag}}</div></div>
+              <div class="col-1"></div>
+              {% endfor%}
+            </div>
+            <br>
+            {% endif %}
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-3">
+        <i class="arrow left"></i><button class="previous">Prev</button>
+    </div>
+    <div class="col-2 text_center" id="review_btn"></div>
+    <div class="col-2 text_center">
+      <button id="save">Submit</button>
+    </div>
+    <div class="col-4"></div>
+    <div class="col-1">
+        <button class="next">Next</button><i class="arrow right"></i>
+    </div>
+</div>
+<br>
+
+{% endblock %}
